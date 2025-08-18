@@ -1,9 +1,15 @@
 import streamlit as st
 import pandas as pd
+import joblib
+
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+
+
+
+model = joblib.load("trained_model.pkl")
 
 # Sample training data
 data = pd.DataFrame({
