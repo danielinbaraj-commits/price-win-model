@@ -9,7 +9,7 @@ from sklearn.pipeline import Pipeline
 
 
 
-model = joblib.load("trained_model.pkl")
+# model = joblib.load("trained_model.pkl")
 
 # Sample training data
 data = pd.DataFrame({
