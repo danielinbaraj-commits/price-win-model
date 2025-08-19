@@ -44,7 +44,7 @@ model.fit(X, y)
 st.title("Price-Win Probability Model")
 
 # User inputs
-price = st.number_input("Price", min_value=0.0)
+price = st.number_input("Price", min_value=1.0)
 customer_type = st.selectbox("Customer Type", options=['New', 'Existing'])
 region = st.selectbox("Region", options=['North', 'South', 'East', 'West'])
 deal_size = st.selectbox("Deal Size", options=['Small', 'Medium', 'Large'])
