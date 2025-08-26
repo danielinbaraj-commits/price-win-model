@@ -1,13 +1,24 @@
 import streamlit as st
 import pandas as pd
 import os
+import base64
 import joblib
 
 # Load the pre-trained model
 
-model_path = os.path.join(os.path.dirname(__file__), "trained_model_streamlit.pkl")
+
+# Decode the base64 model file
+with open("trained_model_streamlit.b64.txt", "rb") as f:
+    model_bytes = base64.b64decode(f.read())
+
+# Save to a temporary file
+with open("temp_model.pkl", "wb") as f:
+    f.write(model_bytes)
+
+
+# model_path = os.path.join(os.path.dirname(__file__), "trained_model_streamlit.pkl")
 try:
-    model = joblib.load(model_path)
+    model = joblib.load("temp_model.pkl")
 except Exception as e:
     st.error(f"Failed to load model: {e}")
     st.stop
