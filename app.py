@@ -1,44 +1,13 @@
 import streamlit as st
 import pandas as pd
-# import joblib
+import joblib
 
-from sklearn.linear_model import LogisticRegression
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-
-
-
-# model = joblib.load("trained_model.pkl")
-
-# Sample training data
-data = pd.DataFrame({
-    'Price': [100, 150, 200, 250, 300, 120, 180, 220],
-    'CustomerType': ['New', 'Existing', 'New', 'Existing', 'New', 'Existing', 'New', 'Existing'],
-    'Region': ['North', 'South', 'East', 'West', 'North', 'South', 'East', 'West'],
-    'DealSize': ['Small', 'Medium', 'Large', 'Small', 'Medium', 'Large', 'Small', 'Medium'],
-    'Won': [1, 0, 1, 0, 1, 0, 1, 0]
-})
-
-# Features and target
-X = data[['Price', 'CustomerType', 'Region', 'DealSize']]
-y = data['Won']
-
-# Preprocessing and model pipeline
-preprocessor = ColumnTransformer(
-    transformers=[
-        ('cat', OneHotEncoder(), ['CustomerType', 'Region', 'DealSize'])
-    ],
-    remainder='passthrough'
-)
-
-model = Pipeline(steps=[
-    ('preprocessor', preprocessor),
-    ('classifier', LogisticRegression())
-])
-
-# Train the model
-model.fit(X, y)
+# Load the pre-trained model
+try:
+    model = joblib.load("trained_model.pkl")
+except FileNotFoundError:
+    st.error("Model file 'trained_model.pkl' not found. Please ensure it is in the correct directory.")
+    st.stop()
 
 # Streamlit app
 st.title("Price-Win Probability Model")
@@ -57,5 +26,9 @@ if st.button("Predict Win Probability"):
         'Region': [region],
         'DealSize': [deal_size]
     })
-    probability = model.predict_proba(input_df)[0][1]
-    st.success(f"Predicted Win Probability: {probability:.2%}")
+
+    try:
+        probability = model.predict_proba(input_df)[0][1]
+        st.success(f"Predicted Win Probability: {probability:.2%}")
+    except Exception as e:
+        st.error(f"Prediction failed: {e}")
