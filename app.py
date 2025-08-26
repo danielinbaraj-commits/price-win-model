@@ -8,17 +8,17 @@ import joblib
 
 
 # Decode the base64 model file
-with open("trained_model_streamlit.b64.txt", "rb") as f:
-    model_bytes = base64.b64decode(f.read())
+# with open("trained_model_streamlit.b64.txt", "rb") as f:
+  #  model_bytes = base64.b64decode(f.read())
 
 # Save to a temporary file
-with open("temp_model.pkl", "wb") as f:
-    f.write(model_bytes)
+# with open("temp_model.pkl", "wb") as f:
+  #  f.write(model_bytes)
 
 
-# model_path = os.path.join(os.path.dirname(__file__), "trained_model_streamlit.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "streamlit_safe_model.pkl")
 try:
-    model = joblib.load("temp_model.pkl")
+    model = joblib.load(model_path)
 except Exception as e:
     st.error(f"Failed to load model: {e}")
     st.stop
