@@ -5,7 +5,7 @@ import joblib
 
 # Load the pre-trained model
 
-model_path = os.path.join(os.path.dirname(__file__), "trained_model.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "trained_model_streamlit.pkl")
 try:
     model = joblib.load(model_path)
 except Exception as e:
