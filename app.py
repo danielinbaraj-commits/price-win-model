@@ -1,13 +1,16 @@
 import streamlit as st
 import pandas as pd
+import os
 import joblib
 
 # Load the pre-trained model
+
+model_path = os.path.join(os.path.dirname(__file__), "trained_model.pkl")
 try:
-    model = joblib.load("trained_model.pkl")
-except FileNotFoundError:
-    st.error("Model file 'trained_model.pkl' not found. Please ensure it is in the correct directory.")
-    st.stop()
+    model = joblib.load(model_path)
+except Exception as e:
+    st.error(f"Failed to load model: {e}")
+    st.stop
 
 # Streamlit app
 st.title("Price-Win Probability Model")
